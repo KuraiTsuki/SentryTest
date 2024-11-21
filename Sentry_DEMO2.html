@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Redrawing and Overlay</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none; /* Allow interaction with underlying content */
+            opacity: 0; /* Fully transparent */
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Lorem Ipsum</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula ullamcorper urna, id lacinia ligula laoreet a. Nullam malesuada ultricies libero, a tincidunt arcu condimentum at. Donec fermentum, risus et tincidunt posuere, justo magna ultrices sapien, non feugiat justo tortor non mi. Nulla facilisi.</p>
+    </div>
+    <canvas id="redrawCanvas"></canvas>
+    <canvas id="overlayCanvas"></canvas>
+
+    <script>
+        // Canvas Redrawing
+        const redrawCanvas = document.getElementById('redrawCanvas');
+        const redrawCtx = redrawCanvas.getContext('2d');
+        redrawCanvas.width = window.innerWidth;
+        redrawCanvas.height = window.innerHeight;
+
+        function redraw() {
+            redrawCtx.clearRect(0, 0, redrawCanvas.width, redrawCanvas.height);
+            redrawCtx.fillStyle = 'rgba(255, 255, 255, 0.0)'; // Fully transparent
+            redrawCtx.fillRect(0, 0, redrawCanvas.width, redrawCanvas.height);
+            requestAnimationFrame(redraw);
+        }
+
+        // Start redrawing
+        redraw();
+
+        // Canvas Overlay
+        const overlayCanvas = document.getElementById('overlayCanvas');
+        const overlayCtx = overlayCanvas.getContext('2d');
+        overlayCanvas.width = window.innerWidth;
+        overlayCanvas.height = window.innerHeight;
+
+        function drawOverlay() {
+            overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+            overlayCtx.fillStyle = 'rgba(0, 0, 0, 0.0)'; // Fully transparent
+            overlayCtx.fillRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+            requestAnimationFrame(drawOverlay);
+        }
+
+        // Start drawing overlay
+        drawOverlay();
+    </script>
+</body>
+</html>
